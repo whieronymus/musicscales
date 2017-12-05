@@ -7,5 +7,5 @@ Generate Major Scales
 ---
 
 ### To Do
-*Fix double-sharp / double-flat scales
-*Create functions for minor, harmonic minor, pentatonic minor/major
+* Fix double-sharp / double-flat scales
+* Create functions for minor, harmonic minor, pentatonic minor/major
