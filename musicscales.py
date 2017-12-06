@@ -6,79 +6,154 @@ Created on Tue Dec  5 01:17:18 2017
 """
 # Intialize Dictionaries for Sharps and flats
 sharps_dict = {
-        'C':0, 'C#':1, 'D':2, 'D#':3, 'E':4, 'F':5, 'F#':6, 'G':7, 'G#': 8,
-        'A':9, 'A#':10, 'B':11, 0:'C', 1:'C#', 2:'D', 3:'D#', 4:'E', 5:'F', 
-        6:'F#', 7:'G', 8:'G#', 9:'A', 10:'A#', 11:'B'
+        'C': 0, 'C#': 1, 'D': 2, 'D#': 3, 'E': 4, 'F': 5, 'F#': 6, 'G': 7,
+        'G#': 8, 'A': 9, 'A#': 10, 'B': 11, 0: 'C', 1: 'C#', 2: 'D', 3: 'D#',
+        4: 'E', 5: 'F', 6: 'F#', 7: 'G', 8: 'G#', 9: 'A', 10: 'A#', 11: 'B'
         }
 
 flats_dict = {
-        'C':0, 'Db':1, 'D':2, 'Eb':3, 'E':4, 'F':5, 'Gb':6, 'G':7, 'Ab':8, 
-        'A':9, 'Bb':10, 'B':11, 0:'C', 1:'Db', 2:'D', 3:'Eb', 4:'E', 5:'F',
-        6:'Gb', 7:'G', 8:'Ab', 9:'A', 10:'Bb', 11:'B'
+        'C': 0, 'Db': 1, 'D': 2, 'Eb': 3, 'E': 4, 'F': 5, 'Gb': 6, 'G': 7,
+        'Ab': 8, 'A': 9, 'Bb': 10, 'B': 11, 'Cb': 11, 0: 'C', 1: 'Db', 2: 'D',
+        3: 'Eb', 4: 'E', 5: 'F', 6: 'Gb', 7: 'G', 8: 'Ab', 9: 'A', 10: 'Bb',
+        11: 'B'
         }
 
-# Initialize Lists for keys depending on the return of sharps or flats
-tonic_flats = ['F', 'Bb', 'Eb', 'Ab', 'Db', 'Gb', 'Cb']
-tonic_sharps = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#']
 
-# Initializes lists for keyword search
-tonic_select_minor = ['Minor', 'minor', 'Natural Minor', 'natural minor']
-                
-def major_scale (tonic):
+# Initialize empty string
+
+scale_select = ''
+
+# Initialize list of scales and intervals for various keys
+scales_list = [
+        'major', 'minor', 'minor pentatonic', 'major pentatonic', 'hirajoshi'
+        ]
+major_scale = [2, 4, 5, 7, 9, 11]
+minor_scale = [2, 3, 5, 7, 8, 10]
+major_pentatonic = [2, 4, 7, 9]
+minor_pentatonic = [3, 5, 7, 10]
+hirajoshi = [2, 3, 7, 8]
+
+# Initialize Lists for keys depending on the return of sharps or flats
+tonic_flats_major = ['F', 'Bb', 'Eb', 'Ab', 'Db', 'Gb', 'Cb']
+tonic_sharps_major = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#']
+tonic_flats_minor = ['D', 'G', 'C', 'F', 'Bb', 'Eb', 'Ab']
+tonic_sharps_minor = ['A', 'E', 'B', 'F#', 'C#', 'G#', 'D#', 'A#']
+
+
+def scale_builder(tonic, scale, tonality):
     """Tonic is the root of a scale, expressed in a string with either a # or
     a b representing sharp or flat.
-    returns a list filled with every note in a major scale built off of the 
+    returns a list filled with every note in a major scale built off of the
     tonic
     """
-    major_intervals = []
-    major_notes = []
-    
-    # Searches tonic_flats in order to use the correct dictionary
-    if tonic in tonic_flats:
-        major_intervals.append(flats_dict[tonic])
-    
-        for i in [2,4,5,7,9,11]:
-            major_intervals.append(flats_dict[tonic]+i)
-        
-        for j in major_intervals:
-            if j < 12:
-                major_notes.append(flats_dict[j])
-            else:
-                octave_shift = j - 12
-                major_notes.append(flats_dict[octave_shift])
-                
-    # Searches tonic_sharps in order to use the correct dictionary
-    elif tonic in tonic_sharps:
-        major_intervals.append(sharps_dict[tonic])
-    
-        for i in [2,4,5,7,9,11]:
-            major_intervals.append(sharps_dict[tonic]+i)
-        
-        for j in major_intervals:
-            if j < 12:
-                major_notes.append(sharps_dict[j])
-            else:
-                octave_shift = j - 12
-                major_notes.append(sharps_dict[octave_shift])
-    else:
-        return 'Invalid Input'
-    
-    if tonic is 'Gb':
-        major_notes[3] = 'Cb'
-    elif tonic is 'Cb':
-        major_notes[0] = 'Cb'
-        major_notes[3] = 'Fb'
-    elif tonic is 'F#':
-        major_notes[6] = 'E#'
-    elif tonic is 'C#':
-        major_notes[6] = 'B#'
-        major_notes[2] = 'E#'
+    intervals = []
+    notes = []
 
-    return major_notes
+    if tonality == 'major':
+        # Searches tonic_flats in order to use the correct dictionary
+        if tonic in tonic_flats_major:
+            intervals.append(flats_dict[tonic])
 
-tonic_select = input("What note is the tonic of the scale?: ")
-scale_select = input("What scale? (Major or Natural Minor): ")
-if scale_select is "Major" or "major":
-    print(major_scale(tonic_select))
+            for i in scale:
+                intervals.append(flats_dict[tonic]+i)
+
+            for j in intervals:
+                if j < 12:
+                    notes.append(flats_dict[j])
+                else:
+                    octave_shift = j - 12
+                    notes.append(flats_dict[octave_shift])
+
+        # Searches tonic_sharps in order to use the correct dictionary
+        elif tonic in tonic_sharps_major:
+            intervals.append(sharps_dict[tonic])
+
+            for i in scale:
+                intervals.append(sharps_dict[tonic]+i)
+
+            for j in intervals:
+                if j < 12:
+                    notes.append(sharps_dict[j])
+                else:
+                    octave_shift = j - 12
+                    notes.append(sharps_dict[octave_shift])
+        else:
+            return 'Invalid Input'
+
+    if tonality is 'minor':
+        # Searches tonic_flats in order to use the correct dictionary
+        if tonic in tonic_flats_minor:
+            intervals.append(flats_dict[tonic])
+
+            for i in scale:
+                intervals.append(flats_dict[tonic]+i)
+
+            for j in intervals:
+                if j < 12:
+                    notes.append(flats_dict[j])
+                else:
+                    octave_shift = j - 12
+                    notes.append(flats_dict[octave_shift])
+
+        # Searches tonic_sharps in order to use the correct dictionary
+        elif tonic in tonic_sharps_minor:
+            intervals.append(sharps_dict[tonic])
+
+            for i in scale:
+                intervals.append(sharps_dict[tonic]+i)
+
+            for j in intervals:
+                if j < 12:
+                    notes.append(sharps_dict[j])
+                else:
+                    octave_shift = j - 12
+                    notes.append(sharps_dict[octave_shift])
+        else:
+            return 'Invalid Input'
+
+    # Adjusts enharmonic equivalents to be within key
+    if tonic == 'Gb':
+        for (i, item) in enumerate(notes):
+            if item == 'B':
+                notes[i] = 'Cb'
+    elif tonic == 'Cb':
+        for (i, item) in enumerate(notes):
+            if item == 'B':
+                notes[i] = 'Cb'
+            if item == 'E':
+                notes[i] = 'Fb'
+    elif tonic == 'F#':
+        for (i, item) in enumerate(notes):
+            if item == 'C':
+                notes[i] = 'B#'
+    elif tonic == 'C#':
+        for (i, item) in enumerate(notes):
+            if item == 'C':
+                notes[i] = 'B#'
+            if item == 'F':
+                notes[i] = 'E#'
+
+    return notes
+
+
+
+while scale_select.lower() not in scales_list:
+    scale_select = input('What scale? (Type "Help" for a list of options): ')
+    if scale_select.lower() == 'help':
+        print('Major, Minor, Minor Pentatonic, Major Pentatonic, Hirajoshi')
+
+
+tonic_select = input('What note is the tonic of the scale?: ')
+
+if scale_select.lower() == 'major':
+    print(scale_builder(tonic_select, major_scale, 'major'))
+elif scale_select.lower() == 'minor':
+    print(scale_builder(tonic_select, minor_scale, 'minor'))
+elif scale_select.lower() == 'major pentatonic':
+    print(scale_builder(tonic_select, major_pentatonic, 'major'))
+elif scale_select.lower() == 'minor pentatonic':
+    print(scale_builder(tonic_select, minor_pentatonic, 'minor'))
+elif scale_select.lower() == 'hirajoshi':
+    print(scale_builder(tonic_select, hirajoshi, 'minor'))
 else:
     print("Invalid Command")
