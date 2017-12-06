@@ -18,9 +18,7 @@ flats_dict = {
         11: 'B'
         }
 
-
 # Initialize empty string
-
 scale_select = ''
 
 # Initialize list of scales and intervals for various keys
@@ -46,70 +44,47 @@ def scale_builder(tonic, scale, tonality):
     returns a list filled with every note in a major scale built off of the
     tonic
     """
+    # Initialize empty lists
     intervals = []
     notes = []
 
+    # Checks the key to return from the correct dictionary
     if tonality == 'major':
-        # Searches tonic_flats in order to use the correct dictionary
-        if tonic in tonic_flats_major:
-            intervals.append(flats_dict[tonic])
+        tonality_flats = ['F', 'Bb', 'Eb', 'Ab', 'Db', 'Gb', 'Cb']
+        tonality_sharps = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#']
+    elif tonality == 'minor':
+        tonality_flats = ['D', 'G', 'C', 'F', 'Bb', 'Eb', 'Ab']
+        tonality_sharps = ['A', 'E', 'B', 'F#', 'C#', 'G#', 'D#', 'A#']
 
-            for i in scale:
-                intervals.append(flats_dict[tonic]+i)
+    # Searches tonic_flats in order to use the correct dictionary
+    if tonic in tonality_flats:
+        intervals.append(flats_dict[tonic])
 
-            for j in intervals:
-                if j < 12:
-                    notes.append(flats_dict[j])
-                else:
-                    octave_shift = j - 12
-                    notes.append(flats_dict[octave_shift])
+        for i in scale:
+            intervals.append(flats_dict[tonic]+i)
 
-        # Searches tonic_sharps in order to use the correct dictionary
-        elif tonic in tonic_sharps_major:
-            intervals.append(sharps_dict[tonic])
+        for j in intervals:
+            if j < 12:
+                notes.append(flats_dict[j])
+            else:
+                octave_shift = j - 12
+                notes.append(flats_dict[octave_shift])
 
-            for i in scale:
-                intervals.append(sharps_dict[tonic]+i)
+    # Searches tonic_sharps in order to use the correct dictionary
+    elif tonic in tonality_sharps:
+        intervals.append(sharps_dict[tonic])
 
-            for j in intervals:
-                if j < 12:
-                    notes.append(sharps_dict[j])
-                else:
-                    octave_shift = j - 12
-                    notes.append(sharps_dict[octave_shift])
-        else:
-            return 'Invalid Input'
+        for i in scale:
+            intervals.append(sharps_dict[tonic]+i)
 
-    if tonality is 'minor':
-        # Searches tonic_flats in order to use the correct dictionary
-        if tonic in tonic_flats_minor:
-            intervals.append(flats_dict[tonic])
-
-            for i in scale:
-                intervals.append(flats_dict[tonic]+i)
-
-            for j in intervals:
-                if j < 12:
-                    notes.append(flats_dict[j])
-                else:
-                    octave_shift = j - 12
-                    notes.append(flats_dict[octave_shift])
-
-        # Searches tonic_sharps in order to use the correct dictionary
-        elif tonic in tonic_sharps_minor:
-            intervals.append(sharps_dict[tonic])
-
-            for i in scale:
-                intervals.append(sharps_dict[tonic]+i)
-
-            for j in intervals:
-                if j < 12:
-                    notes.append(sharps_dict[j])
-                else:
-                    octave_shift = j - 12
-                    notes.append(sharps_dict[octave_shift])
-        else:
-            return 'Invalid Input'
+        for j in intervals:
+            if j < 12:
+                notes.append(sharps_dict[j])
+            else:
+                octave_shift = j - 12
+                notes.append(sharps_dict[octave_shift])
+    else:
+        return 'Invalid Input'
 
     # Adjusts enharmonic equivalents to be within key
     if tonic == 'Gb':
