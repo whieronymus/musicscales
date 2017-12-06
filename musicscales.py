@@ -31,13 +31,6 @@ major_pentatonic = [2, 4, 7, 9]
 minor_pentatonic = [3, 5, 7, 10]
 hirajoshi = [2, 3, 7, 8]
 
-# Initialize Lists for keys depending on the return of sharps or flats
-tonic_flats_major = ['F', 'Bb', 'Eb', 'Ab', 'Db', 'Gb', 'Cb']
-tonic_sharps_major = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#']
-tonic_flats_minor = ['D', 'G', 'C', 'F', 'Bb', 'Eb', 'Ab']
-tonic_sharps_minor = ['A', 'E', 'B', 'F#', 'C#', 'G#', 'D#', 'A#']
-
-
 def scale_builder(tonic, scale, tonality):
     """Tonic is the root of a scale, expressed in a string with either a # or
     a b representing sharp or flat.
